@@ -1,0 +1,13 @@
+digraph G {
+  node [shape=box, style=filled, color=lightblue];
+
+  "1. Solution Development" [tooltip="In this step, you write just enough code to pass the tests formulated in the previous step. This encourages a focus on solving the problem at hand without overcomplicating the solution. The goal is to create a working solution that fulfills the criteria defined by the tests."]
+
+  "2. Solution Refinement" [tooltip="After the initial solution has been developed and the tests pass, you refine the solution through debugging and refactoring. This step involves improving the structure and performance of the solution without changing its behavior. If necessary, you revisit the problem definition or test formulation stages if new information or difficulties arise, or if the tests need to be updated."]
+
+  "3. Documentation" [tooltip="This is the final step where you document the solution. It's important to provide comprehensive documentation for future reference and for others' understanding. Documentation includes comments in the code, user manuals, technical specifications, or even blog posts about the development process."]
+
+  "1. Solution Development" -> "2. Solution Refinement"
+  "2. Solution Refinement" -> "3. Documentation"
+  "2. Solution Refinement" -> "1. Solution Development" [label="If necessary"]
+}
