@@ -11,4 +11,5 @@ https://raw.githubusercontent.com/Konard/problem-solving/main/problem-solving/pr
 
 ![IMG_1141](https://github.com/Konard/problem-solving/assets/1431904/c4040e82-524e-4f25-8ca0-f73cc4761b6e)
 
-![IMG_1142](https://github.com/Konard/problem-solving/assets/1431904/2094c6ed-2aae-4927-8a67-4ae989f71f8a)
+![IMG_1143](https://github.com/Konard/problem-solving/assets/1431904/41b262a9-aedc-4558-a3b2-ceb10a4f7815)
+
