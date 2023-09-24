@@ -19,3 +19,4 @@ https://raw.githubusercontent.com/Konard/problem-solving/main/problem-solving/pr
 
 - [x] https://www.npmjs.com/package/@deep-foundation/chatgpt-tasks (decomposition of tasks)
 - [ ] 
+- [ ] https://github.com/deep-foundation/deep-memo-app/issues/113
