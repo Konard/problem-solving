@@ -15,7 +15,7 @@ https://raw.githubusercontent.com/Konard/problem-solving/main/problem-solving/pr
 
 ## Progress
 
-![IMG_1434](https://github.com/Konard/problem-solving/assets/1431904/a5214fff-7dd1-4e31-bb61-d375163205e6)
+![IMG_1434](https://github.com/Konard/problem-solving/assets/1431904/64600409-c84a-4a83-a1d7-897066bacff4)
 
 - [x] https://www.npmjs.com/package/@deep-foundation/chatgpt-tasks (decomposition of tasks)
 - [ ] 
