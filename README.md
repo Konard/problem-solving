@@ -1,4 +1,8 @@
-# problem-solving
+# ]problem-solving](https://github.com/Konard/problem-solving/blob/main/problem-solving/problem-solving.md}
+
+1. [**Problem Formulation**](https://github.com/Konard/problem-solving/blob/main/problem-solving/problem-formulation/problem-formulation.md): This step involves fully understanding and defining the problem that needs to be solved. This includes defining the problem in clear, precise terms and breaking it down into smaller, manageable parts. Alongside this understanding, you also formulate failing tests based on the problem's definition. These tests serve as concrete goals that the solution should achieve. The aim of this step is to transform the initial problem into a well-defined set of failing tests that clearly express what a solution to the problem should look like.
+
+2. [**Solution Implementation**](https://github.com/Konard/problem-solving/blob/main/problem-solving/solution-implementation/solution-implementation.md): This step begins with formulating a plan to pass the tests defined in the previous step. With a clear understanding of what the solution should achieve (as defined by the tests), you write just enough code to pass these tests. This promotes a focus on solving the problem at hand without overcomplicating the solution. After making the tests pass, you refine the solution through debugging and refactoring to improve its structure and performance without changing its behavior. This step is iterative and may involve revisiting the problem formulation stage if new information or difficulties arise, or if the tests need to be updated. Finally, documenting the solution for future reference and for others' understanding is an integral part of this step.
 
 ![Screenshot_20230620_202205](https://github.com/Konard/problem-solving/assets/1431904/662d8534-939b-4dd1-927b-4e7b1a6a6787)
 
