@@ -1,4 +1,4 @@
-# ]problem-solving](https://github.com/Konard/problem-solving/blob/main/problem-solving/problem-solving.md}
+# [problem-solving](https://github.com/Konard/problem-solving/blob/main/problem-solving/problem-solving.md}
 
 1. [**Problem Formulation**](https://github.com/Konard/problem-solving/blob/main/problem-solving/problem-formulation/problem-formulation.md): This step involves fully understanding and defining the problem that needs to be solved. This includes defining the problem in clear, precise terms and breaking it down into smaller, manageable parts. Alongside this understanding, you also formulate failing tests based on the problem's definition. These tests serve as concrete goals that the solution should achieve. The aim of this step is to transform the initial problem into a well-defined set of failing tests that clearly express what a solution to the problem should look like.
 
