@@ -21,7 +21,7 @@ https://raw.githubusercontent.com/Konard/problem-solving/main/problem-solving/pr
 ![IMG_1434](https://github.com/Konard/problem-solving/assets/1431904/64600409-c84a-4a83-a1d7-897066bacff4)
 
 - [x] https://www.npmjs.com/package/@deep-foundation/chatgpt-tasks (decomposition of tasks)
-- [ ] https://github.com/deep-foundation/dev/issues/141 (task to function type) 
-- [ ] https://github.com/deep-foundation/dev/issues/140 ((task and function type) to test)
-- [ ] https://github.com/deep-foundation/dev/issues/139 ((task and function type) to solution)
-- [ ] https://github.com/deep-foundation/dev/issues/150 (composition of solutions)
+- [x] https://github.com/deep-foundation/dev/issues/141 (task to function type) 
+- [x] https://github.com/deep-foundation/dev/issues/140 ((task and function type) to test)
+- [x] https://github.com/deep-foundation/dev/issues/139 ((task and function type) to solution)
+- [x] https://github.com/deep-foundation/dev/issues/150 (composition of solutions)
