@@ -18,8 +18,6 @@ https://raw.githubusercontent.com/Konard/problem-solving/main/problem-solving/pr
 
 ## Progress
 
-![IMG_1434](https://github.com/Konard/problem-solving/assets/1431904/64600409-c84a-4a83-a1d7-897066bacff4)
-
 - [x] https://www.npmjs.com/package/@deep-foundation/chatgpt-tasks (decomposition of tasks)
 - [x] https://github.com/deep-foundation/dev/issues/141 (task to function type) 
 - [x] https://github.com/deep-foundation/dev/issues/140 ((task and function type) to test)
