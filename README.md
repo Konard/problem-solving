@@ -14,7 +14,7 @@ https://raw.githubusercontent.com/Konard/problem-solving/main/problem-solving/pr
 
 ![IMG_1141](https://github.com/Konard/problem-solving/assets/1431904/c4040e82-524e-4f25-8ca0-f73cc4761b6e)
 
-![IMG_1218](https://github.com/Konard/problem-solving/assets/1431904/40f4d34d-1866-4103-983d-4239abcd0c2d)
+![IMG_3275](https://github.com/user-attachments/assets/1d91e911-9ba4-456e-a00a-14cdd60d9a0a)
 
 ## Progress
 
