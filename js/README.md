@@ -136,7 +136,16 @@ await orchestrator.execute("Implement user authentication");
 ### Running Tests
 
 ```bash
+# Run all tests
 bun test
+
+# Run specific test suites
+bun run test:unit          # Unit tests only
+bun run test:integration   # Integration tests (requires GITHUB_TOKEN)
+bun run test:workflow      # Full GitHub workflow test
+bun run test:all           # Comprehensive test suite
+
+# Watch mode
 bun run test:watch
 ```
 
@@ -184,6 +193,36 @@ bun run dev
 
 MIT License - see LICENSE file for details.
 
+## Testing
+
+The project includes comprehensive test coverage for all GitHub functionality:
+
+### Test Coverage
+
+- **Unit Tests**: Test individual components in isolation
+- **Integration Tests**: Test GitHub API interactions (requires GITHUB_TOKEN)
+- **Workflow Tests**: Test complete GitHub workflows
+- **CLI Tests**: Test command-line interface functionality
+
+### Running Tests
+
+```bash
+# Run all tests
+bun test
+
+# Run specific test suites
+bun run test:unit          # Unit tests only
+bun run test:integration   # Integration tests (requires GITHUB_TOKEN)
+bun run test:workflow      # Full GitHub workflow test
+bun run test:all           # Comprehensive test suite
+```
+
+### Test Requirements
+
+- **Unit Tests**: No external dependencies
+- **Integration Tests**: Requires `GITHUB_TOKEN` environment variable
+- **Workflow Tests**: Requires `GITHUB_TOKEN` and GitHub API access
+
 ## Troubleshooting
 
 ### Common Issues
@@ -191,6 +230,7 @@ MIT License - see LICENSE file for details.
 1. **GitHub API Rate Limits**: Ensure your token has sufficient permissions
 2. **LLM API Errors**: Check your API key and model configuration
 3. **Network Issues**: Verify your internet connection and API endpoints
+4. **Test Failures**: Check that all required environment variables are set
 
 ### Debug Mode
 
@@ -206,4 +246,16 @@ Test the system without making changes:
 
 ```bash
 UNIVERSAL_ALGORITHM_DRY_RUN=true bun start "Your task"
+```
+
+### Testing GitHub Functionality
+
+To test GitHub functionality independently:
+
+```bash
+# Run workflow test
+bun run test:workflow
+
+# Run integration tests
+bun run test:integration
 ``` 

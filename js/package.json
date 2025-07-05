@@ -13,6 +13,10 @@
     "cleanup": "bun run src/index.js cleanup",
     "test": "bun test",
     "test:watch": "bun test --watch",
+    "test:all": "bun run tests/runTests.js",
+    "test:integration": "bun test tests/githubIntegration.test.js",
+    "test:unit": "bun test tests/orchestrator.test.js tests/repositoryManager.test.js tests/githubClient.test.js",
+    "test:workflow": "bun run src/github/workflowTest.js",
     "lint": "eslint src/**/*.js tests/**/*.js",
     "lint:fix": "eslint src/**/*.js tests/**/*.js --fix"
   },
