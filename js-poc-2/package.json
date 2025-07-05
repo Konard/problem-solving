@@ -1,0 +1,14 @@
+{
+  "name": "js-poc-2",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/index.js",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@octokit/rest": "^20.0.0",
+    "langchain": "^0.0.142",
+    "dotenv": "^10.0.0"
+  }
+} 
