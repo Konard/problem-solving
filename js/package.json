@@ -1,0 +1,42 @@
+{
+  "name": "problem-solving-automation",
+  "version": "1.0.0",
+  "description": "Automated problem solving using LLM and GitHub integration",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "decompose": "node src/index.js decompose",
+    "solve": "node src/index.js solve",
+    "compose": "node src/index.js compose",
+    "test": "node --test tests/**/*.test.js",
+    "test:watch": "node --test --watch tests/**/*.test.js",
+    "lint": "eslint src/**/*.js tests/**/*.js",
+    "lint:fix": "eslint src/**/*.js tests/**/*.js --fix"
+  },
+  "keywords": [
+    "problem-solving",
+    "automation",
+    "llm",
+    "github",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^22.0.0",
+    "commander": "^14.0.0",
+    "dotenv": "^17.0.1",
+    "langchain": "^0.3.29",
+    "@langchain/openai": "^0.5.18",
+    "chalk": "^5.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
