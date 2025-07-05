@@ -30,8 +30,7 @@ export class LLMClient {
       return Array.isArray(parsed) ? parsed : [response];
     } catch (error) {
       console.error(chalk.red('  ❌ Error parsing LLM response:'), error.message);
-      // Fallback: return the raw response as a single task
-      return [taskDescription];
+      throw error;
     }
   }
 
