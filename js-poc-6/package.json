@@ -1,0 +1,19 @@
+{
+  "name": "js-poc-6",
+  "module": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "bun src/index.js start",
+    "decompose": "bun src/index.js decompose",
+    "solve": "bun src/index.js solve",
+    "compose": "bun src/index.js compose",
+    "test": "bun test",
+    "test:watch": "bun test --watch"
+  },
+  "dependencies": {
+    "@octokit/rest": "^22.0.0",
+    "commander": "^14.0.0",
+    "dotenv": "^17.0.1",
+    "langchain": "^0.3.29"
+  }
+} 
