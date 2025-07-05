@@ -1,0 +1,18 @@
+{
+  "name": "js-poc-7",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@langchain/openai": "^0.5.18",
+    "dotenv": "^17.0.1",
+    "langchain": "^0.3.29",
+    "octokit": "^5.0.3"
+  }
+}
