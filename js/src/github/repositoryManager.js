@@ -6,12 +6,20 @@ export class RepositoryManager {
   constructor() {
     this.octokit = new Octokit({ 
       auth: process.env.GITHUB_TOKEN,
-      baseUrl: process.env.GITHUB_API_BASE_URL || 'https://api.github.com'
+      baseUrl: process.env.GITHUB_API_BASE_URL || 'https://api.github.com',
+      log: {
+        error: (...args) => {
+          if (!this.suppressGlobalOctokitErrors) {
+            console.error(...args);
+          }
+        }
+      }
     });
     
     this.testRepoOwner = process.env.TEST_REPO_OWNER || 'konard';
     this.testRepoPrefix = process.env.TEST_REPO_PREFIX || 'problem-solving-test-';
     this.deleteOnSuccess = process.env.TEST_REPO_DELETE_ON_SUCCESS === 'true';
+    this.suppressGlobalOctokitErrors = false;
   }
 
   /**
@@ -80,9 +88,12 @@ export class RepositoryManager {
   }
 
   /**
-   * Check if a repository exists
+   * Check if a repository exists (suppress 404 error logging only for this check)
    */
   async repositoryExists(repoName) {
+    // Suppress Octokit error logging globally for this check
+    const prev = this.suppressGlobalOctokitErrors;
+    this.suppressGlobalOctokitErrors = true;
     try {
       await this.octokit.repos.get({
         owner: this.testRepoOwner,
@@ -94,6 +105,8 @@ export class RepositoryManager {
         return false;
       }
       throw error;
+    } finally {
+      this.suppressGlobalOctokitErrors = prev;
     }
   }
 
