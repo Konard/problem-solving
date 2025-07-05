@@ -11,7 +11,7 @@ export class GitHubClient {
       owner: process.env.GITHUB_OWNER,
       repo: process.env.GITHUB_REPO
     };
-    this.dryRun = process.env.UA_DRY_RUN === 'true';
+    this.dryRun = process.env.UNIVERSAL_ALGORITHM_DRY_RUN === 'true';
   }
 
   async createIssue(title, body, parentIssue = null) {

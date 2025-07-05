@@ -34,7 +34,7 @@ export class Orchestrator {
         console.log(chalk.green(`  ✅ Test PR created: #${testPR.prNumber}`));
         
         // 3. Wait for test approval (simulated)
-        if (process.env.UA_DRY_RUN === 'true') {
+        if (process.env.UNIVERSAL_ALGORITHM_DRY_RUN === 'true') {
           console.log(chalk.gray('  ⏭️  Skipping approval check (dry-run mode)'));
         } else {
           console.log(chalk.yellow('  ⏳ Waiting for test approval...'));
@@ -52,7 +52,7 @@ export class Orchestrator {
         console.log(chalk.green(`  ✅ Solution PR created: #${solutionPR.prNumber}`));
         
         // 5. Wait for solution approval (simulated)
-        if (process.env.UA_DRY_RUN === 'true') {
+        if (process.env.UNIVERSAL_ALGORITHM_DRY_RUN === 'true') {
           console.log(chalk.gray('  ⏭️  Skipping approval check (dry-run mode)'));
         } else {
           console.log(chalk.yellow('  ⏳ Waiting for solution approval...'));
@@ -70,7 +70,7 @@ export class Orchestrator {
         
       } catch (error) {
         console.error(chalk.red(`  ❌ Error processing subtask: ${error.message}`));
-        if (process.env.UA_DEBUG === 'true') {
+        if (process.env.UNIVERSAL_ALGORITHM_DEBUG === 'true') {
           console.error(chalk.gray(error.stack));
         }
       }

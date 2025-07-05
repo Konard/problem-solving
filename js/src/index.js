@@ -27,12 +27,12 @@ program
       const orchestrator = new Orchestrator();
       
       if (options.dryRun) {
-        process.env.UA_DRY_RUN = 'true';
+        process.env.UNIVERSAL_ALGORITHM_DRY_RUN = 'true';
         console.log(chalk.yellow('⚠️  Running in dry-run mode'));
       }
       
       if (options.debug) {
-        process.env.UA_DEBUG = 'true';
+        process.env.UNIVERSAL_ALGORITHM_DEBUG = 'true';
         console.log(chalk.gray('🔍 Debug mode enabled'));
       }
       

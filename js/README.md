@@ -60,12 +60,12 @@ GITHUB_REPO=your-repo-name
 GITHUB_API_BASE_URL=https://api.github.com  # Optional
 
 # Universal Algorithm Configuration
-UA_DEBUG=false
-UA_DRY_RUN=false  # Set to true for testing
-UA_MAX_SUBTASKS=10
-UA_MAX_SOLUTION_ATTEMPTS=3
-UA_ENABLE_COMPOSITION=true
-UA_LOG_LEVEL=info
+UNIVERSAL_ALGORITHM_DEBUG=false
+UNIVERSAL_ALGORITHM_DRY_RUN=false  # Set to true for testing
+UNIVERSAL_ALGORITHM_MAX_SUBTASKS=10
+UNIVERSAL_ALGORITHM_MAX_SOLUTION_ATTEMPTS=3
+UNIVERSAL_ALGORITHM_ENABLE_COMPOSITION=true
+UNIVERSAL_ALGORITHM_LOG_LEVEL=info
 ```
 
 ### Getting GitHub Token
@@ -157,10 +157,10 @@ npm run dev
 | `GITHUB_TOKEN` | GitHub personal access token | Required |
 | `GITHUB_OWNER` | Repository owner | Required |
 | `GITHUB_REPO` | Repository name | Required |
-| `UA_DRY_RUN` | Skip actual GitHub changes | `false` |
-| `UA_DEBUG` | Enable debug logging | `false` |
-| `UA_MAX_SUBTASKS` | Maximum subtasks to create | `10` |
-| `UA_MAX_SOLUTION_ATTEMPTS` | Max solution attempts | `3` |
+| `UNIVERSAL_ALGORITHM_DRY_RUN` | Skip actual GitHub changes | `false` |
+| `UNIVERSAL_ALGORITHM_DEBUG` | Enable debug logging | `false` |
+| `UNIVERSAL_ALGORITHM_MAX_SUBTASKS` | Maximum subtasks to create | `10` |
+| `UNIVERSAL_ALGORITHM_MAX_SOLUTION_ATTEMPTS` | Max solution attempts | `3` |
 
 ## Contributing
 
@@ -187,7 +187,7 @@ MIT License - see LICENSE file for details.
 Enable debug mode to see detailed logs:
 
 ```bash
-UA_DEBUG=true npm start "Your task"
+UNIVERSAL_ALGORITHM_DEBUG=true npm start "Your task"
 ```
 
 ### Dry Run Mode
@@ -195,5 +195,5 @@ UA_DEBUG=true npm start "Your task"
 Test the system without making changes:
 
 ```bash
-UA_DRY_RUN=true npm start "Your task"
+UNIVERSAL_ALGORITHM_DRY_RUN=true npm start "Your task"
 ``` 
