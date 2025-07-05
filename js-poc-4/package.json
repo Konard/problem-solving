@@ -1,0 +1,44 @@
+{
+  "name": "js-poc-4",
+  "version": "0.1.0",
+  "description": "Universal Algorithm Proof of Concept #4 - TDD-based automated problem solving using GitHub and LLMs",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "bun src/index.js",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "decompose": "bun src/cli.js decompose",
+    "solve": "bun src/cli.js solve",
+    "compose": "bun src/cli.js compose"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.1.0",
+    "@langchain/openai": "^0.0.14",
+    "@octokit/rest": "^20.0.0",
+    "dotenv": "^16.4.0",
+    "commander": "^12.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1",
+    "inquirer": "^9.2.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "bun-types": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "tdd",
+    "automation",
+    "github",
+    "langchain",
+    "llm",
+    "problem-solving",
+    "universal-algorithm"
+  ],
+  "author": "Universal Algorithm PoC",
+  "license": "MIT"
+} 
