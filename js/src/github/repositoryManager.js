@@ -23,6 +23,43 @@ export class RepositoryManager {
   }
 
   /**
+   * Handle rate limiting by waiting for the reset time
+   */
+  async handleRateLimit(error) {
+    if (error.status === 429 && error.message.includes('rate limit')) {
+      const resetTime = error.response?.headers?.['x-ratelimit-reset'];
+      if (resetTime) {
+        const waitTime = Math.max(0, (parseInt(resetTime) * 1000) - Date.now()) + 1000; // Add 1 second buffer
+        console.log(chalk.yellow(`  ⏳ Rate limit hit, waiting ${Math.ceil(waitTime / 1000)} seconds until reset...`));
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        return true; // Indicates we handled the rate limit
+      }
+    }
+    return false; // Indicates we didn't handle the rate limit
+  }
+
+  /**
+   * Execute a GitHub API call with rate limit handling
+   */
+  async executeWithRateLimit(apiCall) {
+    const maxRetries = 3;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await apiCall();
+      } catch (error) {
+        if (error.status === 403 && error.message.includes('rate limit')) {
+          const handled = await this.handleRateLimit(error);
+          if (handled && attempt < maxRetries) {
+            console.log(chalk.blue(`  🔄 Retrying API call (attempt ${attempt + 1}/${maxRetries})...`));
+            continue;
+          }
+        }
+        throw error;
+      }
+    }
+  }
+
+  /**
    * Generate a sortable UUID (version 7) for repository naming
    * Format: 2024-01-15T10:30:45.123Z-abc1234-def5-6789-ghij-klmnopqrstuv
    */
@@ -43,13 +80,15 @@ export class RepositoryManager {
       
       console.log(chalk.blue(`  📦 Creating test repository: ${repoName}`));
       
-      const repo = await this.octokit.repos.createForAuthenticatedUser({
-        name: repoName,
-        description: description,
-        private: true, // Keep test repos private
-        auto_init: true, // Initialize with README
-        gitignore_template: 'Node',
-        license_template: 'unlicense'
+      const repo = await this.executeWithRateLimit(async () => {
+        return await this.octokit.repos.createForAuthenticatedUser({
+          name: repoName,
+          description: description,
+          private: true, // Keep test repos private
+          auto_init: true, // Initialize with README
+          gitignore_template: 'Node',
+          license_template: 'unlicense'
+        });
       });
       
       console.log(chalk.green(`  ✅ Test repository created: ${repo.data.html_url}`));
@@ -75,9 +114,11 @@ export class RepositoryManager {
     try {
       console.log(chalk.yellow(`  🗑️  Deleting test repository: ${repoName}`));
       
-      await this.octokit.repos.delete({
-        owner: this.testRepoOwner,
-        repo: repoName
+      await this.executeWithRateLimit(async () => {
+        return await this.octokit.repos.delete({
+          owner: this.testRepoOwner,
+          repo: repoName
+        });
       });
       
       console.log(chalk.green(`  ✅ Test repository deleted: ${repoName}`));
@@ -95,9 +136,11 @@ export class RepositoryManager {
     const prev = this.suppressGlobalOctokitErrors;
     this.suppressGlobalOctokitErrors = true;
     try {
-      await this.octokit.repos.get({
-        owner: this.testRepoOwner,
-        repo: repoName
+      await this.executeWithRateLimit(async () => {
+        return await this.octokit.repos.get({
+          owner: this.testRepoOwner,
+          repo: repoName
+        });
       });
       return true;
     } catch (error) {
@@ -115,11 +158,13 @@ export class RepositoryManager {
    */
   async listTestRepositories() {
     try {
-      const repos = await this.octokit.repos.listForAuthenticatedUser({
-        type: 'owner',
-        sort: 'created',
-        direction: 'desc',
-        per_page: 100
+      const repos = await this.executeWithRateLimit(async () => {
+        return await this.octokit.repos.listForAuthenticatedUser({
+          type: 'owner',
+          sort: 'created',
+          direction: 'desc',
+          per_page: 100
+        });
       });
       
       return repos.data.filter(repo => 
