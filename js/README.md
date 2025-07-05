@@ -26,7 +26,7 @@ src/
 ├── llm/           # LLM integration
 │   └── llmClient.js
 ├── orchestrator.js # Main orchestration logic
-└── index.js       # CLI entry point
+└── cli.js       # CLI entry point
 ```
 
 ## Installation
@@ -88,7 +88,7 @@ TEST_REPO_DELETE_ON_SUCCESS=true  # Delete test repository after successful test
 bun start "Implement a user authentication system"
 
 # Or use the CLI
-bun run src/index.js solve "Create a REST API for user management"
+bun run src/cli.js solve "Create a REST API for user management"
 ```
 
 ### CLI Commands
