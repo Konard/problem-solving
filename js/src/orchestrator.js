@@ -15,6 +15,10 @@ export class Orchestrator {
   async execute(mainTask) {
     console.log(chalk.blue('🎯 Starting problem solving pipeline...'));
     
+    // 0. Create test repository
+    console.log(chalk.yellow('📦 Step 0: Creating test repository...'));
+    await this.decomposer.github.createTestRepository(`Test repository for: ${mainTask}`);
+    
     // 1. Decompose task and create issues
     console.log(chalk.yellow('📋 Step 1: Decomposing task...'));
     const { mainIssue, subtasks } = await this.decomposer.decomposeAndCreateIssues(mainTask);
@@ -87,6 +91,11 @@ export class Orchestrator {
     console.log(chalk.yellow('\n🔗 Step 2: Composing final solution...'));
     const finalPR = await this.composer.composeAndCreateFinalPR(mainIssue, subtaskSolutions);
     console.log(chalk.green(`✅ Final solution PR created: #${finalPR.prNumber}`));
+    
+    // 7. Cleanup test repository
+    console.log(chalk.yellow('\n🧹 Step 3: Cleaning up test repository...'));
+    const success = successCount === subtasks.length;
+    await this.decomposer.github.cleanupTestRepository(success);
     
     console.log(chalk.green('\n🎉 Problem solving pipeline completed successfully!'));
   }

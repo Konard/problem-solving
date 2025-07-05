@@ -80,6 +80,23 @@ program
     }
   });
 
+program
+  .command('cleanup')
+  .description('Clean up old test repositories')
+  .option('-d, --days <days>', 'Delete repositories older than N days', '7')
+  .action(async (options) => {
+    try {
+      console.log(chalk.blue(`🧹 Cleaning up test repositories older than ${options.days} days`));
+      const { RepositoryManager } = await import('./github/repositoryManager.js');
+      const repoManager = new RepositoryManager();
+      const deletedCount = await repoManager.cleanupOldTestRepositories(parseInt(options.days));
+      console.log(chalk.green(`✅ Cleaned up ${deletedCount} repositories`));
+    } catch (error) {
+      console.error(chalk.red('❌ Error:'), error.message);
+      process.exit(1);
+    }
+  });
+
 // If no command is provided, run the default solve command
 if (process.argv.length === 2) {
   const task = process.argv[2] || "Implement a user authentication system";

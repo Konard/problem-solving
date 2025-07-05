@@ -34,7 +34,7 @@ src/
 1. Clone the repository
 2. Install dependencies:
    ```bash
-   npm install
+   bun install
    ```
 3. Copy the environment configuration:
    ```bash
@@ -66,6 +66,11 @@ UNIVERSAL_ALGORITHM_MAX_SUBTASKS=10
 UNIVERSAL_ALGORITHM_MAX_SOLUTION_ATTEMPTS=3
 UNIVERSAL_ALGORITHM_ENABLE_COMPOSITION=true
 UNIVERSAL_ALGORITHM_LOG_LEVEL=info
+
+# Test Repository Configuration
+TEST_REPO_OWNER=konard
+TEST_REPO_PREFIX=problem-solving-test-
+TEST_REPO_DELETE_ON_SUCCESS=true  # Delete test repository after successful tests
 ```
 
 ### Getting GitHub Token
@@ -80,29 +85,29 @@ UNIVERSAL_ALGORITHM_LOG_LEVEL=info
 
 ```bash
 # Solve a problem using the full pipeline
-npm start "Implement a user authentication system"
+bun start "Implement a user authentication system"
 
 # Or use the CLI
-node src/index.js solve "Create a REST API for user management"
+bun run src/index.js solve "Create a REST API for user management"
 ```
 
 ### CLI Commands
 
 ```bash
 # Solve a problem (full pipeline)
-npm run solve "Your problem description"
+bun run solve "Your problem description"
 
 # Decompose a task into subtasks
-npm run decompose "Your task description"
+bun run decompose "Your task description"
 
 # Generate tests for a task
-npm run test "Your task description"
+bun run test "Your task description"
 
 # Run in dry-run mode (no actual GitHub changes)
-npm start -- --dry-run "Your problem description"
+bun start -- --dry-run "Your problem description"
 
 # Enable debug logging
-npm start -- --debug "Your problem description"
+bun start -- --debug "Your problem description"
 ```
 
 ### Programmatic Usage
@@ -116,34 +121,36 @@ await orchestrator.execute("Implement user authentication");
 
 ## Workflow
 
-1. **Task Decomposition**: The system breaks down the main task into 3-5 specific subtasks
-2. **Issue Creation**: Creates GitHub issues for the main task and each subtask
-3. **Test Generation**: For each subtask, generates comprehensive test code
-4. **Solution Generation**: Creates production-ready code that passes the tests
-5. **Approval Process**: Waits for test and solution approvals (simulated)
-6. **Composition**: Combines all approved solutions into a final implementation
-7. **Final PR**: Creates a pull request with the complete solution
+1. **Test Repository Creation**: Creates a dedicated test repository with unique naming
+2. **Task Decomposition**: The system breaks down the main task into 3-5 specific subtasks
+3. **Issue Creation**: Creates GitHub issues for the main task and each subtask
+4. **Test Generation**: For each subtask, generates comprehensive test code
+5. **Solution Generation**: Creates production-ready code that passes the tests
+6. **Approval Process**: Waits for test and solution approvals (simulated)
+7. **Composition**: Combines all approved solutions into a final implementation
+8. **Final PR**: Creates a pull request with the complete solution
+9. **Repository Cleanup**: Deletes test repository on success, keeps for investigation on failure
 
 ## Development
 
 ### Running Tests
 
 ```bash
-npm test
-npm run test:watch
+bun test
+bun run test:watch
 ```
 
 ### Linting
 
 ```bash
-npm run lint
-npm run lint:fix
+bun run lint
+bun run lint:fix
 ```
 
 ### Development Mode
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 ## Environment Variables
@@ -161,6 +168,9 @@ npm run dev
 | `UNIVERSAL_ALGORITHM_DEBUG` | Enable debug logging | `false` |
 | `UNIVERSAL_ALGORITHM_MAX_SUBTASKS` | Maximum subtasks to create | `10` |
 | `UNIVERSAL_ALGORITHM_MAX_SOLUTION_ATTEMPTS` | Max solution attempts | `3` |
+| `TEST_REPO_OWNER` | Owner of test repositories | `konard` |
+| `TEST_REPO_PREFIX` | Prefix for test repository names | `problem-solving-test-` |
+| `TEST_REPO_DELETE_ON_SUCCESS` | Delete test repo after success | `true` |
 
 ## Contributing
 
@@ -187,7 +197,7 @@ MIT License - see LICENSE file for details.
 Enable debug mode to see detailed logs:
 
 ```bash
-UNIVERSAL_ALGORITHM_DEBUG=true npm start "Your task"
+UNIVERSAL_ALGORITHM_DEBUG=true bun start "Your task"
 ```
 
 ### Dry Run Mode
@@ -195,5 +205,5 @@ UNIVERSAL_ALGORITHM_DEBUG=true npm start "Your task"
 Test the system without making changes:
 
 ```bash
-UNIVERSAL_ALGORITHM_DRY_RUN=true npm start "Your task"
+UNIVERSAL_ALGORITHM_DRY_RUN=true bun start "Your task"
 ``` 

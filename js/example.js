@@ -39,8 +39,8 @@ async function runExample() {
   console.log('\n' + '='.repeat(50) + '\n');
   
   console.log(chalk.blue('💡 To run the full pipeline:'));
-  console.log(chalk.gray('  npm start "Your problem description"'));
-  console.log(chalk.gray('  npm start -- --dry-run "Your problem description"'));
+  console.log(chalk.gray('  bun start "Your problem description"'));
+  console.log(chalk.gray('  bun start -- --dry-run "Your problem description"'));
 }
 
 // Check if environment variables are set

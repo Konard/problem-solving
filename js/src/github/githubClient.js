@@ -1,5 +1,6 @@
 import { Octokit } from '@octokit/rest';
 import chalk from 'chalk';
+import { RepositoryManager } from './repositoryManager.js';
 
 export class GitHubClient {
   constructor() {
@@ -12,6 +13,8 @@ export class GitHubClient {
       repo: process.env.GITHUB_REPO
     };
     this.dryRun = process.env.UNIVERSAL_ALGORITHM_DRY_RUN === 'true';
+    this.repositoryManager = new RepositoryManager();
+    this.testRepository = null;
   }
 
   async createIssue(title, body, parentIssue = null) {
@@ -119,5 +122,60 @@ export class GitHubClient {
       .replace(/^-|-$/g, '');
     
     return `src/${sanitized}.js`;
+  }
+
+  /**
+   * Create a test repository for this session
+   */
+  async createTestRepository(description) {
+    try {
+      this.testRepository = await this.repositoryManager.createTestRepository(description);
+      
+      // Update the repo configuration to use the test repository
+      this.repo = {
+        owner: this.testRepository.name.split('/')[0],
+        repo: this.testRepository.name.split('/')[1]
+      };
+      
+      console.log(chalk.blue(`  🎯 Using test repository: ${this.testRepository.fullName}`));
+      return this.testRepository;
+    } catch (error) {
+      console.error(chalk.red('  ❌ Error creating test repository:'), error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete the test repository if tests were successful
+   */
+  async cleanupTestRepository(success = false) {
+    if (!this.testRepository) {
+      console.log(chalk.gray('  ℹ️  No test repository to clean up'));
+      return;
+    }
+
+    if (this.dryRun) {
+      console.log(chalk.gray(`  📝 [DRY-RUN] Would ${success ? 'delete' : 'keep'} test repository: ${this.testRepository.name}`));
+      return;
+    }
+
+    if (success && this.repositoryManager.deleteOnSuccess) {
+      try {
+        await this.repositoryManager.deleteTestRepository(this.testRepository.name);
+      } catch (error) {
+        console.error(chalk.red(`  ❌ Failed to delete test repository ${this.testRepository.name}:`), error.message);
+        console.log(chalk.yellow(`  💡 Repository ${this.testRepository.url} will need manual cleanup`));
+      }
+    } else if (!success) {
+      console.log(chalk.yellow(`  💾 Keeping test repository for investigation: ${this.testRepository.url}`));
+      console.log(chalk.gray(`  📝 Repository will need manual cleanup when investigation is complete`));
+    }
+  }
+
+  /**
+   * Get the current test repository info
+   */
+  getTestRepositoryInfo() {
+    return this.testRepository;
   }
 } 
