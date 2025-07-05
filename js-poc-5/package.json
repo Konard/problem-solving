@@ -1,0 +1,44 @@
+{
+  "name": "js-poc-5",
+  "version": "1.0.0",
+  "description": "Universal Algorithm - TDD-based automated problem-solving system",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.js",
+    "dev": "bun run --hot src/index.js",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "decompose": "bun run src/cli.js decompose",
+    "solve": "bun run src/cli.js solve",
+    "compose": "bun run src/cli.js compose"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.0",
+    "@langchain/openai": "^0.3.0",
+    "@octokit/rest": "^20.0.0",
+    "commander": "^12.0.0",
+    "dotenv": "^16.0.0",
+    "chalk": "^5.0.0",
+    "inquirer": "^9.0.0",
+    "ora": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "jest": "^29.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "universal-algorithm",
+    "tdd",
+    "problem-solving",
+    "automation",
+    "github",
+    "langchain",
+    "llm"
+  ],
+  "author": "",
+  "license": "MIT"
+} 
