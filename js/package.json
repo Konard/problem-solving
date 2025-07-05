@@ -28,7 +28,7 @@
     "ai"
   ],
   "author": "",
-  "license": "MIT",
+      "license": "Unlicense",
   "dependencies": {
     "@octokit/rest": "^22.0.0",
     "commander": "^14.0.0",

@@ -41,7 +41,7 @@ export class RepositoryManager {
         private: true, // Keep test repos private
         auto_init: true, // Initialize with README
         gitignore_template: 'Node',
-        license_template: 'mit'
+        license_template: 'unlicense'
       });
       
       console.log(chalk.green(`  ✅ Test repository created: ${repo.data.html_url}`));

@@ -191,7 +191,7 @@ bun run dev
 
 ## License
 
-MIT License - see LICENSE file for details.
+Unlicense - see LICENSE file for details.
 
 ## Testing
 
