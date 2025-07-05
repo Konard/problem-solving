@@ -8,12 +8,20 @@ import chalk from 'chalk';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Updated test files organized by category
 const testFiles = [
-  'tests/orchestrator.test.js',
-  'tests/repositoryManager.test.js',
-  'tests/githubClient.test.js',
-  'tests/cli.test.js',
-  'tests/githubIntegration.test.js'
+  // Unit tests (fast, isolated)
+  'tests/unit/cli.test.js',
+  'tests/unit/githubClient.test.js',
+  'tests/unit/repositoryManager.test.js',
+  
+  // Integration tests (medium speed, some real services)
+  'tests/integration/orchestrator.test.js',
+  'tests/integration/githubIntegration.test.js',
+  
+  // E2E tests (slow, real APIs)
+  'tests/e2e/universalAlgorithm.test.js',
+  'tests/e2e/sqrt-universal-algorithm.test.js'
 ];
 
 async function runTest(file) {
@@ -58,6 +66,10 @@ async function runTest(file) {
 
 async function runAllTests() {
   console.log(chalk.blue('🚀 Starting comprehensive test suite...\n'));
+  console.log(chalk.gray('📁 Test Categories:'));
+  console.log(chalk.gray('   🧪 Unit tests (fast, isolated)'));
+  console.log(chalk.gray('   🔗 Integration tests (medium speed)'));
+  console.log(chalk.gray('   🚀 E2E tests (slow, real APIs)\n'));
   
   const results = [];
   let passed = 0;
@@ -95,8 +107,8 @@ async function runAllTests() {
 
 // Check if GitHub token is available for integration tests
 if (!process.env.GITHUB_TOKEN) {
-  console.log(chalk.yellow('⚠️  GITHUB_TOKEN not set - integration tests will be skipped'));
-  console.log(chalk.gray('   Set GITHUB_TOKEN to run full integration tests'));
+  console.log(chalk.yellow('⚠️  GITHUB_TOKEN not set - integration and e2e tests will be skipped'));
+  console.log(chalk.gray('   Set GITHUB_TOKEN to run full integration and e2e tests'));
 }
 
 runAllTests().catch(console.error); 

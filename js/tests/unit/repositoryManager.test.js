@@ -1,6 +1,9 @@
-import { test, describe, beforeEach, afterEach } from 'node:test';
-import assert from 'node:assert';
-import { RepositoryManager } from '../src/github/repositoryManager.js';
+import { test, describe, beforeEach, afterEach } from 'bun:test';
+import assert from 'assert';
+import { RepositoryManager } from '../../src/github/repositoryManager.js';
+import { GitHubClient } from '../../src/github/githubClient.js';
+import { Octokit } from '@octokit/rest';
+import chalk from 'chalk';
 
 describe('RepositoryManager', () => {
   let repoManager;

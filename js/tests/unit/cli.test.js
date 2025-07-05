@@ -1,5 +1,5 @@
-import { test, describe, beforeEach, afterEach } from 'node:test';
-import assert from 'node:assert';
+import { test, describe, beforeEach, afterEach } from 'bun:test';
+import assert from 'assert';
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';

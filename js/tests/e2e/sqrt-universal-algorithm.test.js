@@ -1,7 +1,7 @@
 import { test, describe, beforeEach, afterEach, beforeAll, afterAll } from 'bun:test';
 import assert from 'assert';
-import { Orchestrator } from '../src/orchestrator.js';
-import { GitHubClient } from '../src/github/githubClient.js';
+import { Orchestrator } from '../../src/orchestrator.js';
+import { GitHubClient } from '../../src/github/githubClient.js';
 import { Octokit } from '@octokit/rest';
 import chalk from 'chalk';
 

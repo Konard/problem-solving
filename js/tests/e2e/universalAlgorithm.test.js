@@ -1,7 +1,9 @@
-import { test, describe, beforeEach, afterEach } from 'node:test';
-import assert from 'node:assert';
-import { Orchestrator } from '../src/orchestrator.js';
-import { GitHubClient } from '../src/github/githubClient.js';
+import { test, describe, beforeEach, afterEach } from 'bun:test';
+import assert from 'assert';
+import { Orchestrator } from '../../src/orchestrator.js';
+import { GitHubClient } from '../../src/github/githubClient.js';
+import { Octokit } from '@octokit/rest';
+import chalk from 'chalk';
 
 describe('Universal Algorithm Integration Test', () => {
   let orchestrator;
