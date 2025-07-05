@@ -165,8 +165,8 @@ export class GitHubClient {
       
       // Update the repo configuration to use the test repository
       this.repo = {
-        owner: this.testRepository.name.split('/')[0],
-        repo: this.testRepository.name.split('/')[1]
+        owner: this.testRepository.fullName.split('/')[0],
+        repo: this.testRepository.fullName.split('/')[1]
       };
       
       console.log(chalk.blue(`  🎯 Using test repository: ${this.testRepository.fullName}`));

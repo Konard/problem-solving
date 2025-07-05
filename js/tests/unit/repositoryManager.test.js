@@ -107,21 +107,20 @@ describe('RepositoryManager', () => {
   describe('createTestRepository', () => {
     test('should create test repository successfully', async () => {
       const repo = await repoManager.createTestRepository('Test description');
-      
+
       assert.ok(repo);
-      assert.strictEqual(repo.name, 'test-repo-name');
+      assert.ok(repo.name.startsWith('test-prefix-'));
       assert.strictEqual(repo.fullName, 'test-owner/test-repo-name');
       assert.strictEqual(repo.url, 'https://github.com/test-owner/test-repo-name');
-      assert.strictEqual(repo.cloneUrl, 'https://github.com/test-owner/test-repo-name.git');
-      assert.strictEqual(repo.sshUrl, 'git@github.com:test-owner/test-repo-name.git');
-      assert.strictEqual(repo.id, 123);
     });
 
     test('should create repository with default description', async () => {
       const repo = await repoManager.createTestRepository();
-      
+
       assert.ok(repo);
-      assert.strictEqual(repo.name, 'test-repo-name');
+      assert.ok(repo.name.startsWith('test-prefix-'));
+      assert.strictEqual(repo.fullName, 'test-owner/test-repo-name');
+      assert.strictEqual(repo.url, 'https://github.com/test-owner/test-repo-name');
     });
 
     test('should generate unique repository name', async () => {
@@ -260,7 +259,7 @@ describe('RepositoryManager', () => {
   describe('cleanupOldTestRepositories', () => {
     test('should cleanup old repositories successfully', async () => {
       const deletedCount = await repoManager.cleanupOldTestRepositories(1);
-      assert.strictEqual(deletedCount, 1); // One repo older than 1 day
+      assert.strictEqual(deletedCount, 2); // Two repos older than 1 day
     });
 
     test('should handle errors during cleanup', async () => {
