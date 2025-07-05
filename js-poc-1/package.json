@@ -1,0 +1,19 @@
+{
+  "name": "js-poc",
+  "version": "1.0.0",
+  "description": "Rule-based and LLM-based task decomposition proof of concept",
+  "main": "src/ruleBasedDecomposer.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "dotenv": "^16.4.5"
+  },
+  "dependencies": {
+    "@langchain/openai": "^0.0.14",
+    "langchain": "^0.1.25",
+    "zod": "^3.22.4"
+  }
+} 
