@@ -178,13 +178,23 @@ describe('Orchestrator', () => {
       }
     });
 
-    test('should handle cleanup errors gracefully', async () => {
-      mockDecomposer.github.cleanupTestRepository = async () => {
-        throw new Error('Cleanup failed');
+    test('should handle cleanup errors gracefully when deleteOnSuccess is true', async () => {
+      // Mock the repository manager to simulate deleteOnSuccess = true
+      const originalDeleteOnSuccess = orchestrator.decomposer.github.repositoryManager.deleteOnSuccess;
+      orchestrator.decomposer.github.repositoryManager.deleteOnSuccess = true;
+      
+      // Mock the deleteTestRepository method to throw an error
+      const originalDeleteTestRepository = orchestrator.decomposer.github.repositoryManager.deleteTestRepository;
+      orchestrator.decomposer.github.repositoryManager.deleteTestRepository = async () => {
+        throw new Error('Delete failed');
       };
 
       await orchestrator.execute('Test task');
-      // Should not throw error, just log it
+      // Should handle the error gracefully
+      
+      // Restore original methods
+      orchestrator.decomposer.github.repositoryManager.deleteOnSuccess = originalDeleteOnSuccess;
+      orchestrator.decomposer.github.repositoryManager.deleteTestRepository = originalDeleteTestRepository;
     });
 
     test('should track success count correctly', async () => {

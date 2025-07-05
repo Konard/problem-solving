@@ -159,14 +159,26 @@ export class GitHubClient {
       return;
     }
 
-    if (success && this.repositoryManager.deleteOnSuccess) {
+    // When deleteOnSuccess is false, we just log and return - no operations that could fail
+    if (!this.repositoryManager.deleteOnSuccess) {
+      if (success) {
+        console.log(chalk.green(`  ✅ Keeping test repository (deleteOnSuccess=false): ${this.testRepository.url}`));
+      } else {
+        console.log(chalk.yellow(`  💾 Keeping test repository for investigation: ${this.testRepository.url}`));
+        console.log(chalk.gray(`  📝 Repository will need manual cleanup when investigation is complete`));
+      }
+      return;
+    }
+
+    // Only attempt deletion when deleteOnSuccess is true
+    if (success) {
       try {
         await this.repositoryManager.deleteTestRepository(this.testRepository.name);
       } catch (error) {
         console.error(chalk.red(`  ❌ Failed to delete test repository ${this.testRepository.name}:`), error.message);
         console.log(chalk.yellow(`  💡 Repository ${this.testRepository.url} will need manual cleanup`));
       }
-    } else if (!success) {
+    } else {
       console.log(chalk.yellow(`  💾 Keeping test repository for investigation: ${this.testRepository.url}`));
       console.log(chalk.gray(`  📝 Repository will need manual cleanup when investigation is complete`));
     }
