@@ -8,9 +8,11 @@ export class RepositoryManager {
       owner: 'konard',
       name: 'problem-solving-test-',
     },
+    testRepoOwner,
+    testRepoPrefix,
     deleteOnSuccess = false,
     octokit,
-  }) {
+  } = {}) {
     this.octokit = octokit || new Octokit({ 
       auth: process.env.GITHUB_TOKEN,
       baseUrl: process.env.GITHUB_API_BASE_URL || 'https://api.github.com',
@@ -23,13 +25,28 @@ export class RepositoryManager {
       }
     });
     
-    this.repository = repository;
+    // Handle both old and new parameter formats
+    if (testRepoOwner && testRepoPrefix) {
+      // Old format: testRepoOwner, testRepoPrefix
+      this.repository = {
+        owner: testRepoOwner,
+        name: testRepoPrefix,
+      };
+    } else {
+      // New format: repository object
+      this.repository = repository;
+    }
+    
     this.repo = {
-      owner: repository.owner,
-      repo: repository.name,
+      owner: this.repository.owner,
+      repo: this.repository.name,
     };
     this.deleteOnSuccess = deleteOnSuccess;
     this.suppressGlobalOctokitErrors = false;
+    
+    // Add test-specific properties for backward compatibility
+    this.testRepoOwner = this.repository.owner;
+    this.testRepoPrefix = this.repository.name;
   }
 
   /**
@@ -215,5 +232,33 @@ export class RepositoryManager {
       console.error(chalk.red('  ❌ Error during cleanup:'), error.message);
       throw error;
     }
+  }
+
+  /**
+   * Create a test repository (alias for createRepository)
+   */
+  async createTestRepository(description = 'Test repository for problem solving automation') {
+    return this.createRepository(description);
+  }
+
+  /**
+   * Delete a test repository (alias for deleteRepository)
+   */
+  async deleteTestRepository(repoName) {
+    return this.deleteRepository(repoName);
+  }
+
+  /**
+   * List test repositories (alias for listRepositories)
+   */
+  async listTestRepositories() {
+    return this.listRepositories();
+  }
+
+  /**
+   * Clean up old test repositories (alias for cleanupOldRepositories)
+   */
+  async cleanupOldTestRepositories(daysOld = 7) {
+    return this.cleanupOldRepositories(daysOld);
   }
 } 

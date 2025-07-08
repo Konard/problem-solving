@@ -25,7 +25,8 @@ describe('GitHubClient', () => {
         createRef: async () => ({ data: {} })
       },
       pulls: {
-        create: async () => ({ data: { number: 456, html_url: 'https://github.com/test/pr/456' } })
+        create: async () => ({ data: { number: 456, html_url: 'https://github.com/test/pr/456' } }),
+        listReviews: async () => ({ data: [{ state: 'APPROVED' }] })
       }
     };
 

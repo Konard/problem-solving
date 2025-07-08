@@ -12,7 +12,7 @@ export class Orchestrator {
     llmClient, 
     debug = false, 
     dryRun = false 
-  }) {
+  } = {}) {
     this.githubClient = githubClient || new GitHubClient({ 
       dryRun,
     });
