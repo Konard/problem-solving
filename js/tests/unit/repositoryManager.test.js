@@ -10,12 +10,6 @@ describe('RepositoryManager', () => {
   let mockOctokit;
 
   beforeEach(() => {
-    // Mock environment variables
-    process.env.GITHUB_TOKEN = 'test-token';
-    process.env.TEST_REPO_OWNER = 'test-owner';
-    process.env.TEST_REPO_PREFIX = 'test-prefix-';
-    process.env.TEST_REPO_DELETE_ON_SUCCESS = 'true';
-
     // Create mock Octokit
     mockOctokit = {
       repos: {
@@ -54,16 +48,12 @@ describe('RepositoryManager', () => {
     };
 
     // Create repository manager with mocked Octokit
-    repoManager = new RepositoryManager();
-    repoManager.octokit = mockOctokit;
-  });
-
-  afterEach(() => {
-    // Clean up environment variables
-    delete process.env.GITHUB_TOKEN;
-    delete process.env.TEST_REPO_OWNER;
-    delete process.env.TEST_REPO_PREFIX;
-    delete process.env.TEST_REPO_DELETE_ON_SUCCESS;
+    repoManager = new RepositoryManager({
+      testRepoOwner: 'test-owner',
+      testRepoPrefix: 'test-prefix-',
+      deleteOnSuccess: true,
+      octokit: mockOctokit
+    });
   });
 
   test('should be instantiable', () => {
@@ -75,10 +65,6 @@ describe('RepositoryManager', () => {
   });
 
   test('should use default values when env vars not set', () => {
-    delete process.env.TEST_REPO_OWNER;
-    delete process.env.TEST_REPO_PREFIX;
-    delete process.env.TEST_REPO_DELETE_ON_SUCCESS;
-
     const defaultRepoManager = new RepositoryManager();
     assert.strictEqual(defaultRepoManager.testRepoOwner, 'konard');
     assert.strictEqual(defaultRepoManager.testRepoPrefix, 'problem-solving-test-');

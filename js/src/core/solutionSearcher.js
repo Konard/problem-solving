@@ -3,9 +3,9 @@ import { GitHubClient } from '../github/githubClient.js';
 import chalk from 'chalk';
 
 export class SolutionSearcher {
-  constructor() {
-    this.llm = new LLMClient();
-    this.github = new GitHubClient();
+  constructor({ githubClient, llmClient }) {
+    this.llm = llmClient || new LLMClient();
+    this.github = githubClient || new GitHubClient();
   }
 
   async searchAndCreateSolutionPR(issue, testCode) {

@@ -120,9 +120,6 @@ module.exports = sqrt;`;
     orchestrator.testGenerator.llm = mockLLM;
     orchestrator.solutionSearcher.llm = mockLLM;
     orchestrator.composer.llm = mockLLM;
-    
-    // Set test mode for faster approvals
-    process.env.UNIVERSAL_ALGORITHM_TEST_MODE = 'true';
   });
 
   test('should complete full Universal Algorithm pipeline for square root function', async () => {

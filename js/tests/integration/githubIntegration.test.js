@@ -136,8 +136,7 @@ describe('GitHub Integration', () => {
     }
 
     // Enable dry-run mode
-    process.env.UNIVERSAL_ALGORITHM_DRY_RUN = 'true';
-    const dryRunClient = new GitHubClient();
+    const dryRunClient = new GitHubClient({ dryRun: true });
 
     // These should not actually create anything
     const issueNumber = await dryRunClient.createIssue('Dry Run Issue', 'Test');
@@ -145,9 +144,6 @@ describe('GitHub Integration', () => {
 
     const pr = await dryRunClient.createPullRequest('Dry Run PR', 'branch', 'content', 1);
     assert.ok(pr.prNumber > 0); // Should return mock number
-
-    // Clean up
-    delete process.env.UNIVERSAL_ALGORITHM_DRY_RUN;
   });
 
   test('should generate unique repository names', async () => {

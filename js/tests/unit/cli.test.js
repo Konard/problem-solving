@@ -8,24 +8,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 describe('CLI', () => {
-  let originalEnv;
-
-  beforeEach(() => {
-    // Save original environment
-    originalEnv = { ...process.env };
-    
-    // Set test environment variables
-    process.env.GITHUB_TOKEN = 'test-token';
-    process.env.GITHUB_OWNER = 'test-owner';
-    process.env.GITHUB_REPO = 'test-repo';
-    process.env.OPENAI_API_KEY = 'test-openai-key';
-  });
-
-  afterEach(() => {
-    // Restore original environment
-    process.env = originalEnv;
-  });
-
   test('should show help when no arguments provided', async () => {
     return new Promise((resolve, reject) => {
       const child = spawn('bun', ['run', 'src/cli.js'], {

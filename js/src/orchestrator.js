@@ -3,24 +3,28 @@ import { TestGenerator } from './core/testGenerator.js';
 import { SolutionSearcher } from './core/solutionSearcher.js';
 import { Composer } from './core/composer.js';
 import { GitHubClient } from './github/githubClient.js';
+import { LLMClient } from './llm/llmClient.js';
 import chalk from 'chalk';
 
 export class Orchestrator {
-  constructor() {
-    // Create a single GitHub client instance to be shared across all components
-    this.githubClient = new GitHubClient();
-    
-    // Create components with the shared GitHub client
-    this.decomposer = new Decomposer();
-    this.testGenerator = new TestGenerator();
-    this.solutionSearcher = new SolutionSearcher();
-    this.composer = new Composer();
-    
-    // Ensure all components use the same GitHub client
-    this.decomposer.github = this.githubClient;
-    this.testGenerator.github = this.githubClient;
-    this.solutionSearcher.github = this.githubClient;
-    this.composer.github = this.githubClient;
+  constructor({ 
+    githubClient, 
+    llmClient, 
+    debug = false, 
+    dryRun = false 
+  }) {
+    this.githubClient = githubClient || new GitHubClient({ 
+      dryRun,
+    });
+    this.llmClient = llmClient || new LLMClient();
+
+    this.debug = debug || false;
+    this.dryRun = dryRun || false;
+
+    this.decomposer = new Decomposer({ githubClient: this.githubClient, llmClient: this.llmClient });
+    this.testGenerator = new TestGenerator({ githubClient: this.githubClient, llmClient: this.llmClient });
+    this.solutionSearcher = new SolutionSearcher({ githubClient: this.githubClient, llmClient: this.llmClient });
+    this.composer = new Composer({ githubClient: this.githubClient, llmClient: this.llmClient });
   }
 
   async execute(mainTask, existingRepository = null) {
@@ -70,7 +74,7 @@ export class Orchestrator {
         console.log(chalk.green(`  ✅ Test PR created: #${testPR.prNumber}`));
         
         // 3. Wait for test approval (simulated)
-        if (process.env.UNIVERSAL_ALGORITHM_DRY_RUN === 'true') {
+        if (this.dryRun) {
           console.log(chalk.gray('  ⏭️  Skipping approval check (dry-run mode)'));
         } else {
           console.log(chalk.yellow('  ⏳ Waiting for test approval...'));
@@ -88,7 +92,7 @@ export class Orchestrator {
         console.log(chalk.green(`  ✅ Solution PR created: #${solutionPR.prNumber}`));
         
         // 5. Wait for solution approval (simulated)
-        if (process.env.UNIVERSAL_ALGORITHM_DRY_RUN === 'true') {
+        if (this.dryRun) {
           console.log(chalk.gray('  ⏭️  Skipping approval check (dry-run mode)'));
         } else {
           console.log(chalk.yellow('  ⏳ Waiting for solution approval...'));
@@ -106,7 +110,7 @@ export class Orchestrator {
         
       } catch (error) {
         console.error(chalk.red(`  ❌ Error processing subtask: ${error.message}`));
-        if (process.env.UNIVERSAL_ALGORITHM_DEBUG === 'true') {
+        if (this.debug) {
           console.error(chalk.gray(error.stack));
         }
       }

@@ -13,10 +13,6 @@ describe('Orchestrator', () => {
   let mockComposer;
 
   beforeEach(() => {
-    // Mock environment variables
-    process.env.UNIVERSAL_ALGORITHM_DEBUG = 'false';
-    process.env.UNIVERSAL_ALGORITHM_DRY_RUN = 'false';
-
     // Create mock components
     mockDecomposer = {
       decomposeAndCreateIssues: async () => ({
@@ -64,17 +60,16 @@ describe('Orchestrator', () => {
     };
 
     // Create orchestrator with mocked dependencies
-    orchestrator = new Orchestrator();
+    orchestrator = new Orchestrator({
+      debug: false,
+      githubClient: new GitHubClient({
+        dryRun: false,
+      }),
+    });
     orchestrator.decomposer = mockDecomposer;
     orchestrator.testGenerator = mockTestGenerator;
     orchestrator.solutionSearcher = mockSolutionSearcher;
     orchestrator.composer = mockComposer;
-  });
-
-  afterEach(() => {
-    // Clean up environment variables
-    delete process.env.UNIVERSAL_ALGORITHM_DEBUG;
-    delete process.env.UNIVERSAL_ALGORITHM_DRY_RUN;
   });
 
   test('should be instantiable', () => {
@@ -104,14 +99,14 @@ describe('Orchestrator', () => {
     });
 
     test('should handle dry-run mode', async () => {
-      process.env.UNIVERSAL_ALGORITHM_DRY_RUN = 'true';
-      await orchestrator.execute('Test task');
+      const dryRunOrchestrator = new Orchestrator({ githubClient: new GitHubClient({ dryRun: true }) });
+      await dryRunOrchestrator.execute('Test task');
       // Should complete without errors in dry-run mode
     });
 
     test('should handle debug mode', async () => {
-      process.env.UNIVERSAL_ALGORITHM_DEBUG = 'true';
-      await orchestrator.execute('Test task');
+      const debugOrchestrator = new Orchestrator({ debug: true });
+      await debugOrchestrator.execute('Test task');
       // Should complete without errors in debug mode
     });
 

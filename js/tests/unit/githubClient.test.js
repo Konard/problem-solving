@@ -10,15 +10,6 @@ describe('GitHubClient', () => {
   let mockRepositoryManager;
 
   beforeEach(() => {
-    // Mock environment variables
-    process.env.GITHUB_TOKEN = 'test-token';
-    process.env.GITHUB_OWNER = 'test-owner';
-    process.env.GITHUB_REPO = 'test-repo';
-    process.env.UNIVERSAL_ALGORITHM_DRY_RUN = 'false';
-    process.env.TEST_REPO_OWNER = 'test-owner';
-    process.env.TEST_REPO_PREFIX = 'test-prefix-';
-    process.env.TEST_REPO_DELETE_ON_SUCCESS = 'true';
-
     // Create mock Octokit
     mockOctokit = {
       issues: {
@@ -53,20 +44,11 @@ describe('GitHubClient', () => {
     };
 
     // Create GitHub client with mocked dependencies
-    githubClient = new GitHubClient();
+    githubClient = new GitHubClient({ 
+      dryRun: false,
+    });
     githubClient.octokit = mockOctokit;
     githubClient.repositoryManager = mockRepositoryManager;
-  });
-
-  afterEach(() => {
-    // Clean up environment variables
-    delete process.env.GITHUB_TOKEN;
-    delete process.env.GITHUB_OWNER;
-    delete process.env.GITHUB_REPO;
-    delete process.env.UNIVERSAL_ALGORITHM_DRY_RUN;
-    delete process.env.TEST_REPO_OWNER;
-    delete process.env.TEST_REPO_PREFIX;
-    delete process.env.TEST_REPO_DELETE_ON_SUCCESS;
   });
 
   test('should be instantiable', () => {
@@ -77,8 +59,7 @@ describe('GitHubClient', () => {
   });
 
   test('should handle dry-run mode', () => {
-    process.env.UNIVERSAL_ALGORITHM_DRY_RUN = 'true';
-    const dryRunClient = new GitHubClient();
+    const dryRunClient = new GitHubClient({ dryRun: true });
     assert.strictEqual(dryRunClient.dryRun, true);
   });
 

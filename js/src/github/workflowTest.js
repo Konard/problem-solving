@@ -175,8 +175,7 @@ export class GitHubWorkflowTest {
     console.log(chalk.yellow('🔄 Testing Dry Run Mode...'));
 
     // Enable dry-run mode
-    process.env.UNIVERSAL_ALGORITHM_DRY_RUN = 'true';
-    const dryRunClient = new GitHubClient();
+    const dryRunClient = new GitHubClient({ dryRun: true });
 
     // Test dry-run issue creation
     const issueNumber = await dryRunClient.createIssue('Dry Run Issue', 'Test');
@@ -189,9 +188,6 @@ export class GitHubWorkflowTest {
     // Test dry-run approval
     const approved = await dryRunClient.getApprovalStatus(123);
     this.addResult('Dry Run - Approval', approved, 'Mock approval');
-
-    // Clean up
-    delete process.env.UNIVERSAL_ALGORITHM_DRY_RUN;
   }
 
   addResult(test, success, details) {

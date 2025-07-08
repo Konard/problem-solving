@@ -3,8 +3,15 @@ import chalk from 'chalk';
 import { randomUUID } from 'crypto';
 
 export class RepositoryManager {
-  constructor() {
-    this.octokit = new Octokit({ 
+  constructor({
+    repository = {
+      owner: 'konard',
+      name: 'problem-solving-test-',
+    },
+    deleteOnSuccess = false,
+    octokit,
+  }) {
+    this.octokit = octokit || new Octokit({ 
       auth: process.env.GITHUB_TOKEN,
       baseUrl: process.env.GITHUB_API_BASE_URL || 'https://api.github.com',
       log: {
@@ -16,9 +23,12 @@ export class RepositoryManager {
       }
     });
     
-    this.testRepoOwner = process.env.TEST_REPO_OWNER || 'konard';
-    this.testRepoPrefix = process.env.TEST_REPO_PREFIX || 'problem-solving-test-';
-    this.deleteOnSuccess = process.env.TEST_REPO_DELETE_ON_SUCCESS === 'true';
+    this.repository = repository;
+    this.repo = {
+      owner: repository.owner,
+      repo: repository.name,
+    };
+    this.deleteOnSuccess = deleteOnSuccess;
     this.suppressGlobalOctokitErrors = false;
   }
 
@@ -70,28 +80,28 @@ export class RepositoryManager {
   }
 
   /**
-   * Create a test repository with a unique name
+   * Create a repository with a unique name
    */
-  async createTestRepository(description = 'Test repository for problem solving automation') {
+  async createRepository(description = 'Test repository for problem solving automation') {
     try {
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const uuid = randomUUID().split('-')[0]; // Use first part of UUID for brevity
-      const repoName = `${this.testRepoPrefix}${timestamp}-${uuid}`;
+      const repoName = `${this.repository.name}${timestamp}-${uuid}`;
       
-      console.log(chalk.blue(`  📦 Creating test repository: ${repoName}`));
+      console.log(chalk.blue(`  📦 Creating repository: ${repoName}`));
       
       const repo = await this.executeWithRateLimit(async () => {
         return await this.octokit.repos.createForAuthenticatedUser({
           name: repoName,
           description: description,
-          private: true, // Keep test repos private
+          private: true, // Keep repos private
           auto_init: true, // Initialize with README
           gitignore_template: 'Node',
           license_template: 'unlicense'
         });
       });
       
-      console.log(chalk.green(`  ✅ Test repository created: ${repo.data.html_url}`));
+      console.log(chalk.green(`  ✅ Repository created: ${repo.data.html_url}`));
       
       return {
         name: repoName,
@@ -102,28 +112,28 @@ export class RepositoryManager {
         id: repo.data.id
       };
     } catch (error) {
-      console.error(chalk.red('  ❌ Error creating test repository:'), error.message);
+      console.error(chalk.red('  ❌ Error creating repository:'), error.message);
       throw error;
     }
   }
 
   /**
-   * Delete a test repository
+   * Delete a repository
    */
-  async deleteTestRepository(repoName) {
+  async deleteRepository(repoName) {
     try {
-      console.log(chalk.yellow(`  🗑️  Deleting test repository: ${repoName}`));
+      console.log(chalk.yellow(`  🗑️  Deleting repository: ${repoName}`));
       
       await this.executeWithRateLimit(async () => {
         return await this.octokit.repos.delete({
-          owner: this.testRepoOwner,
+          owner: this.repository.owner,
           repo: repoName
         });
       });
       
-      console.log(chalk.green(`  ✅ Test repository deleted: ${repoName}`));
+      console.log(chalk.green(`  ✅ Repository deleted: ${repoName}`));
     } catch (error) {
-      console.error(chalk.red(`  ❌ Error deleting test repository ${repoName}:`), error.message);
+      console.error(chalk.red(`  ❌ Error deleting repository ${repoName}:`), error.message);
       throw error;
     }
   }
@@ -137,10 +147,7 @@ export class RepositoryManager {
     this.suppressGlobalOctokitErrors = true;
     try {
       await this.executeWithRateLimit(async () => {
-        return await this.octokit.repos.get({
-          owner: this.testRepoOwner,
-          repo: repoName
-        });
+        return await this.octokit.repos.get(this.repo);
       });
       return true;
     } catch (error) {
@@ -154,9 +161,9 @@ export class RepositoryManager {
   }
 
   /**
-   * List all test repositories (for cleanup purposes)
+   * List all repositories (for cleanup purposes)
    */
-  async listTestRepositories() {
+  async listRepositories() {
     try {
       const repos = await this.executeWithRateLimit(async () => {
         return await this.octokit.repos.listForAuthenticatedUser({
@@ -168,23 +175,23 @@ export class RepositoryManager {
       });
       
       return repos.data.filter(repo => 
-        repo.name.startsWith(this.testRepoPrefix) && 
-        repo.owner.login === this.testRepoOwner
+        repo.name.startsWith(this.repository.name) && 
+        repo.owner.login === this.repository.owner
       );
     } catch (error) {
-      console.error(chalk.red('  ❌ Error listing test repositories:'), error.message);
+      console.error(chalk.red('  ❌ Error listing repositories:'), error.message);
       throw error;
     }
   }
 
   /**
-   * Clean up old test repositories (older than specified days)
+   * Clean up old repositories (older than specified days)
    */
-  async cleanupOldTestRepositories(daysOld = 7) {
+  async cleanupOldRepositories(daysOld = 7) {
     try {
-      console.log(chalk.blue(`  🧹 Cleaning up test repositories older than ${daysOld} days`));
+      console.log(chalk.blue(`  🧹 Cleaning up repositories older than ${daysOld} days`));
       
-      const repos = await this.listTestRepositories();
+      const repos = await this.listRepositories();
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - daysOld);
       
@@ -194,7 +201,7 @@ export class RepositoryManager {
         const createdAt = new Date(repo.created_at);
         if (createdAt < cutoffDate) {
           try {
-            await this.deleteTestRepository(repo.name);
+            await this.deleteRepository(repo.name);
             deletedCount++;
           } catch (error) {
             console.error(chalk.red(`  ❌ Failed to delete ${repo.name}:`), error.message);
@@ -202,7 +209,7 @@ export class RepositoryManager {
         }
       }
       
-      console.log(chalk.green(`  ✅ Cleaned up ${deletedCount} old test repositories`));
+      console.log(chalk.green(`  ✅ Cleaned up ${deletedCount} old repositories`));
       return deletedCount;
     } catch (error) {
       console.error(chalk.red('  ❌ Error during cleanup:'), error.message);

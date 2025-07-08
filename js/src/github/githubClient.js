@@ -3,18 +3,30 @@ import chalk from 'chalk';
 import { RepositoryManager } from './repositoryManager.js';
 
 export class GitHubClient {
-  constructor() {
-    this.octokit = new Octokit({ 
+  constructor({ 
+    dryRun = false,
+    testMode = false,
+    octokit,
+    repo,
+    repositoryManager,
+    deleteOnSuccess = false,
+   } = {}) {
+    this.octokit = octokit || new Octokit({ 
       auth: process.env.GITHUB_TOKEN,
       baseUrl: process.env.GITHUB_API_BASE_URL || 'https://api.github.com'
     });
-    this.repo = {
+    this.repo = repo || {
       owner: process.env.GITHUB_OWNER,
       repo: process.env.GITHUB_REPO
     };
-    this.dryRun = process.env.UNIVERSAL_ALGORITHM_DRY_RUN === 'true';
-    this.repositoryManager = new RepositoryManager();
+    this.dryRun = dryRun;
+    this.repositoryManager = repositoryManager || new RepositoryManager({
+      repo,
+      octokit,
+      deleteOnSuccess,
+    });
     this.testRepository = null;
+    this.testMode = testMode;
   }
 
   /**
@@ -173,7 +185,7 @@ export class GitHubClient {
       await new Promise(resolve => setTimeout(resolve, 500)); // 500ms delay
       
       // For now, always approve in test mode
-      if (process.env.NODE_ENV === 'test' || process.env.UNIVERSAL_ALGORITHM_TEST_MODE === 'true') {
+      if (this.testMode) {
         return true;
       }
       
@@ -191,7 +203,7 @@ export class GitHubClient {
     } catch (error) {
       console.error(chalk.red('  ❌ Error checking approval status:'), error.message);
       // In test mode, default to approved
-      if (process.env.NODE_ENV === 'test' || process.env.UNIVERSAL_ALGORITHM_TEST_MODE === 'true') {
+      if (this.testMode) {
         return true;
       }
       return false;
